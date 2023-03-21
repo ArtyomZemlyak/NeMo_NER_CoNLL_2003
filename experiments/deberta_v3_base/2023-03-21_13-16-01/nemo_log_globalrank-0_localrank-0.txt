@@ -1,0 +1,309 @@
+[NeMo W 2023-03-21 13:15:57 optimizers:66] Could not import distributed_fused_adam optimizer from Apex
+[NeMo W 2023-03-21 13:16:00 experimental:27] Module <class 'nemo.collections.nlp.data.language_modeling.megatron.megatron_batch_samplers.MegatronPretrainingRandomBatchSampler'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 13:16:00 experimental:27] Module <class 'nemo.collections.nlp.models.text_normalization_as_tagging.thutmose_tagger.ThutmoseTaggerModel'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 13:16:01 experimental:27] Module <class 'nemo.collections.asr.modules.audio_modules.SpectrogramToMultichannelFeatures'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 13:16:01 nemo_logging:349] flair/lib/python3.8/site-packages/clearml/binding/hydra_bind.py:137: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+    See https://hydra.cc/docs/next/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+      result = PatchHydra._original_run_job(*args, **kwargs)
+    
+[NeMo I 2023-03-21 13:16:01 exp_manager:370] Experiments will be logged at experiments/deberta_v3_base/2023-03-21_13-16-01
+[NeMo I 2023-03-21 13:16:01 exp_manager:788] TensorboardLogger has been set up
+[NeMo I 2023-03-21 13:16:06 exp_manager:826] ClearMLLogger has been set up
+[NeMo I 2023-03-21 13:16:06 train:86] Config: pretrained_model: null
+    model:
+      label_ids: null
+      class_labels:
+        class_labels_file: label_ids.csv
+      dataset:
+        data_dir: ./data
+        class_balancing: null
+        max_seq_length: 128
+        pad_label: O
+        ignore_extra_tokens: false
+        ignore_start_end: false
+        use_cache: false
+        num_workers: 2
+        pin_memory: false
+        drop_last: false
+      train_ds:
+        text_file: text_train.txt
+        labels_file: labels_train.txt
+        shuffle: true
+        num_samples: -1
+        batch_size: 16
+      validation_ds:
+        text_file: text_dev.txt
+        labels_file: labels_dev.txt
+        shuffle: false
+        num_samples: -1
+        batch_size: 4
+      test_ds:
+        text_file: text_dev.txt
+        labels_file: labels_dev.txt
+        shuffle: false
+        num_samples: -1
+        batch_size: 4
+      tokenizer:
+        tokenizer_name: ${model.language_model.pretrained_model_name}
+        vocab_file: null
+        tokenizer_model: null
+        special_tokens: null
+      language_model:
+        pretrained_model_name: microsoft/deberta-v3-base
+        lm_checkpoint: null
+        config_file: null
+        config: null
+      head:
+        num_fc_layers: 2
+        fc_dropout: 0.5
+        activation: relu
+        use_transformer_init: true
+      optim:
+        name: adam
+        lr: 5.0e-05
+        weight_decay: 0.0
+        sched:
+          name: WarmupAnnealing
+          warmup_steps: null
+          warmup_ratio: 0.1
+          last_epoch: -1
+          monitor: val_loss
+          reduce_on_plateau: false
+    trainer:
+      devices: 1
+      num_nodes: 1
+      max_epochs: 5
+      max_steps: -1
+      accumulate_grad_batches: 1
+      gradient_clip_val: 0.0
+      precision: 32
+      accelerator: gpu
+      enable_checkpointing: false
+      logger: false
+      log_every_n_steps: 1
+      val_check_interval: 1.0
+      resume_from_checkpoint: null
+    exp_manager:
+      exp_dir: experiments/
+      name: deberta_v3_base
+      create_tensorboard_logger: true
+      create_checkpoint_callback: true
+      checkpoint_callback_params:
+        monitor: f1
+        mode: max
+        save_top_k: 2
+        always_save_nemo: true
+        save_best_model: true
+        verbose: false
+      resume_if_exists: false
+      resume_ignore_no_checkpoint: false
+      create_wandb_logger: false
+      wandb_logger_kwargs:
+        name: null
+        project: null
+      create_clearml_logger: true
+      clearml_logger_kwargs:
+        task: deberta_v3_base
+        project: Text/NLP/NER
+        tags:
+        - NeMo
+        log_model: false
+        log_cfg: true
+        log_metrics: true
+        connect_pytorch: false
+    
+[NeMo I 2023-03-21 13:16:06 tokenizer_utils:130] Getting HuggingFace AutoTokenizer with pretrained_model_name: microsoft/deberta-v3-base, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: False
+[NeMo I 2023-03-21 13:16:09 token_classification_utils:118] Processing ./data/labels_train.txt
+[NeMo I 2023-03-21 13:16:09 token_classification_utils:154] Labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4} saved to : ./data/label_ids.csv
+[NeMo I 2023-03-21 13:16:09 token_classification_utils:163] Three most popular labels in ./data/labels_train.txt:
+[NeMo I 2023-03-21 13:16:09 data_preprocessing:194] label: 0, 169578 out of 203621 (83.28%).
+[NeMo I 2023-03-21 13:16:09 data_preprocessing:194] label: 4, 11128 out of 203621 (5.47%).
+[NeMo I 2023-03-21 13:16:09 data_preprocessing:194] label: 3, 10025 out of 203621 (4.92%).
+[NeMo I 2023-03-21 13:16:09 token_classification_utils:165] Total labels: 203621. Label frequencies - {0: 169578, 4: 11128, 3: 10025, 1: 8297, 2: 4593}
+[NeMo I 2023-03-21 13:16:09 token_classification_utils:171] Class weights restored from ./data/labels_train_weights.p
+[NeMo I 2023-03-21 13:16:14 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 13:16:14 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 13:16:14 data_preprocessing:406] Min: 3 |                  Max: 148 |                  Mean: 19.270849654583007 |                  Median: 15.0
+[NeMo I 2023-03-21 13:16:14 data_preprocessing:412] 75 percentile: 27.00
+[NeMo I 2023-03-21 13:16:14 data_preprocessing:413] 99 percentile: 54.00
+[NeMo W 2023-03-21 13:16:15 token_classification_dataset:152] 1 are longer than 128
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:157] subtokens: [CLS] ▁EU ▁rejects ▁German ▁call ▁to ▁boycott ▁British ▁lamb ▁. [SEP]
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:160] subtokens_mask: 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:162] labels: 0 3 0 2 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:15 token_classification_dataset:278] features saved to ./data/cached__text_train.txt__labels_train.txt__DebertaV2Tokenizer_128_128001_-1
+[NeMo I 2023-03-21 13:16:15 token_classification_utils:118] Processing ./data/labels_dev.txt
+[NeMo I 2023-03-21 13:16:15 token_classification_utils:138] Using provided labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4}
+[NeMo I 2023-03-21 13:16:15 token_classification_utils:160] ./data/labels_dev_label_stats.tsv found, skipping stats calculation.
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 13:16:17 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 13:16:17 data_preprocessing:406] Min: 3 |                  Max: 130 |                  Mean: 20.70646153846154 |                  Median: 16.0
+[NeMo I 2023-03-21 13:16:17 data_preprocessing:412] 75 percentile: 29.00
+[NeMo I 2023-03-21 13:16:17 data_preprocessing:413] 99 percentile: 57.00
+[NeMo W 2023-03-21 13:16:17 token_classification_dataset:152] 2 are longer than 128
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:157] subtokens: [CLS] ▁CRI CKET ▁- ▁LEI C ESTER SHIRE ▁TAKE ▁OVER ▁AT ▁TOP ▁AFTER ▁I NN INGS ▁VICTOR Y ▁. [SEP]
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:160] subtokens_mask: 0 1 0 1 1 0 0 0 1 1 1 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:162] labels: 0 0 0 0 3 3 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:17 token_classification_dataset:278] features saved to ./data/cached__text_dev.txt__labels_dev.txt__DebertaV2Tokenizer_128_128001_-1
+[NeMo I 2023-03-21 13:16:17 token_classification_utils:118] Processing ./data/labels_dev.txt
+[NeMo I 2023-03-21 13:16:17 token_classification_utils:138] Using provided labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4}
+[NeMo I 2023-03-21 13:16:17 token_classification_utils:160] ./data/labels_dev_label_stats.tsv found, skipping stats calculation.
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 13:16:18 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 13:16:18 data_preprocessing:406] Min: 3 |                  Max: 130 |                  Mean: 20.70646153846154 |                  Median: 16.0
+[NeMo I 2023-03-21 13:16:18 data_preprocessing:412] 75 percentile: 29.00
+[NeMo I 2023-03-21 13:16:18 data_preprocessing:413] 99 percentile: 57.00
+[NeMo W 2023-03-21 13:16:18 token_classification_dataset:152] 2 are longer than 128
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:157] subtokens: [CLS] ▁CRI CKET ▁- ▁LEI C ESTER SHIRE ▁TAKE ▁OVER ▁AT ▁TOP ▁AFTER ▁I NN INGS ▁VICTOR Y ▁. [SEP]
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:160] subtokens_mask: 0 1 0 1 1 0 0 0 1 1 1 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:162] labels: 0 0 0 0 3 3 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 13:16:18 token_classification_dataset:278] features saved to ./data/cached__text_dev.txt__labels_dev.txt__DebertaV2Tokenizer_128_128001_-1
+[NeMo W 2023-03-21 13:16:18 lm_utils:91] microsoft/deberta-v3-base is not in get_pretrained_lm_models_list(include_external=False), will be using AutoModel from HuggingFace.
+[NeMo I 2023-03-21 13:16:28 modelPT:722] Optimizer config = Adam (
+    Parameter Group 0
+        amsgrad: False
+        betas: (0.9, 0.999)
+        capturable: False
+        differentiable: False
+        eps: 1e-08
+        foreach: None
+        fused: False
+        lr: 5e-05
+        maximize: False
+        weight_decay: 0.0
+    )
+[NeMo I 2023-03-21 13:16:28 lr_scheduler:910] Scheduler "<nemo.core.optim.lr_scheduler.WarmupAnnealing object at 0x7f40f595c370>" 
+    will be used during training (effective maximum steps = 4390) - 
+    Parameters : 
+    (warmup_steps: null
+    warmup_ratio: 0.1
+    last_epoch: -1
+    max_steps: 4390
+    )
+[NeMo W 2023-03-21 13:16:28 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning:
+    
+    The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+    
+    
+[NeMo I 2023-03-21 13:16:31 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                          0.00       0.00       0.00        179
+    LOC (label_id: 1)                                       25.00      16.67      20.00          6
+    MISC (label_id: 2)                                       1.82     100.00       3.57          2
+    ORG (label_id: 3)                                        0.00       0.00       0.00         14
+    PER (label_id: 4)                                        1.03      10.00       1.87         10
+    -------------------
+    micro avg                                                1.90       1.90       1.90        211
+    macro avg                                                5.57      25.33       5.09        211
+    weighted avg                                             0.78       1.90       0.69        211
+    
+[NeMo W 2023-03-21 13:16:31 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('val_loss', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 13:16:31 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('precision', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 13:16:31 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('f1', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 13:16:31 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('recall', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 13:16:31 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning:
+    
+    The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+    
+    
+[NeMo I 2023-03-21 13:26:32 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.74      99.79      99.77      42759
+    LOC (label_id: 1)                                       96.79      96.70      96.75       2091
+    MISC (label_id: 2)                                      80.55      96.37      87.76       1268
+    ORG (label_id: 3)                                       96.58      86.33      91.17       2092
+    PER (label_id: 4)                                       99.32      97.87      98.59       3149
+    -------------------
+    micro avg                                               98.92      98.92      98.92      51359
+    macro avg                                               94.60      95.41      94.81      51359
+    weighted avg                                            98.99      98.92      98.93      51359
+    
+[NeMo I 2023-03-21 13:26:53 exp_manager:963] New best .nemo model saved to: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo
+[NeMo I 2023-03-21 13:37:12 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.81      99.78      99.80      42759
+    LOC (label_id: 1)                                       94.99      98.90      96.91       2091
+    MISC (label_id: 2)                                      90.38      92.67      91.51       1268
+    ORG (label_id: 3)                                       96.92      91.73      94.25       2092
+    PER (label_id: 4)                                       98.83      99.05      98.94       3149
+    -------------------
+    micro avg                                               99.20      99.20      99.20      51359
+    macro avg                                               96.19      96.43      96.28      51359
+    weighted avg                                            99.21      99.20      99.20      51359
+    
+[NeMo I 2023-03-21 13:37:20 exp_manager:963] New best .nemo model saved to: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo
+[NeMo I 2023-03-21 13:37:26 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=94.8056-epoch=0-last.ckpt
+[NeMo I 2023-03-21 13:49:01 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.88      99.77      99.82      42759
+    LOC (label_id: 1)                                       96.71      98.52      97.61       2091
+    MISC (label_id: 2)                                      94.64      91.88      93.24       1268
+    ORG (label_id: 3)                                       89.70      97.37      93.38       2092
+    PER (label_id: 4)                                       99.67      95.46      97.52       3149
+    -------------------
+    micro avg                                               99.16      99.16      99.16      51359
+    macro avg                                               96.12      96.60      96.31      51359
+    weighted avg                                            99.19      99.16      99.17      51359
+    
+[NeMo I 2023-03-21 13:49:11 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=94.8056-epoch=0.ckpt
+[NeMo I 2023-03-21 13:49:15 exp_manager:963] New best .nemo model saved to: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo
+[NeMo I 2023-03-21 13:49:20 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=96.2813-epoch=1-last.ckpt
+[NeMo I 2023-03-21 13:59:21 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.88      99.80      99.84      42759
+    LOC (label_id: 1)                                       97.68      98.57      98.12       2091
+    MISC (label_id: 2)                                      91.18      96.21      93.63       1268
+    ORG (label_id: 3)                                       97.45      94.89      96.15       2092
+    PER (label_id: 4)                                       99.05      99.05      99.05       3149
+    -------------------
+    micro avg                                               99.41      99.41      99.41      51359
+    macro avg                                               97.05      97.70      97.36      51359
+    weighted avg                                            99.42      99.41      99.41      51359
+    
+[NeMo I 2023-03-21 13:59:25 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=96.2813-epoch=1.ckpt
+[NeMo I 2023-03-21 13:59:30 exp_manager:963] New best .nemo model saved to: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo
+[NeMo I 2023-03-21 13:59:34 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=96.3122-epoch=2-last.ckpt
+[NeMo I 2023-03-21 14:08:45 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.86      99.85      99.85      42759
+    LOC (label_id: 1)                                       97.90      98.13      98.02       2091
+    MISC (label_id: 2)                                      93.50      95.35      94.42       1268
+    ORG (label_id: 3)                                       96.96      95.98      96.47       2092
+    PER (label_id: 4)                                       99.14      99.02      99.08       3149
+    -------------------
+    micro avg                                               99.46      99.46      99.46      51359
+    macro avg                                               97.47      97.67      97.57      51359
+    weighted avg                                            99.46      99.46      99.46      51359
+    
+[NeMo I 2023-03-21 14:08:56 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=96.3122-epoch=2.ckpt
+[NeMo I 2023-03-21 14:09:03 exp_manager:963] New best .nemo model saved to: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo
+[NeMo I 2023-03-21 14:09:10 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=97.3565-epoch=3-last.ckpt
+[NeMo I 2023-03-21 14:09:13 exp_manager:963] New best .nemo model saved to: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo
+[NeMo I 2023-03-21 14:09:17 nlp_overrides:208] Removing checkpoint: experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base--f1=97.5666-epoch=4-last.ckpt

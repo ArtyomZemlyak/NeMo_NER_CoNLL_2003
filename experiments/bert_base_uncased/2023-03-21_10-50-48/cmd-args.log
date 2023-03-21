@@ -1,0 +1,1 @@
+train.py --config-path=./configs --config-name=train_bert_base_uncased.yaml

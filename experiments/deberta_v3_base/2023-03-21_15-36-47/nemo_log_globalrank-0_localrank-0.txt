@@ -1,0 +1,119 @@
+[NeMo W 2023-03-21 15:36:43 optimizers:66] Could not import distributed_fused_adam optimizer from Apex
+[NeMo W 2023-03-21 15:36:46 experimental:27] Module <class 'nemo.collections.nlp.data.language_modeling.megatron.megatron_batch_samplers.MegatronPretrainingRandomBatchSampler'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 15:36:46 experimental:27] Module <class 'nemo.collections.nlp.models.text_normalization_as_tagging.thutmose_tagger.ThutmoseTaggerModel'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 15:36:46 experimental:27] Module <class 'nemo.collections.asr.modules.audio_modules.SpectrogramToMultichannelFeatures'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 15:36:47 nemo_logging:349] flair/lib/python3.8/site-packages/clearml/binding/hydra_bind.py:137: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+    See https://hydra.cc/docs/next/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+      result = PatchHydra._original_run_job(*args, **kwargs)
+    
+[NeMo I 2023-03-21 15:36:47 test:39] During evaluation/testing, it is currently advisable to construct a new Trainer with single GPU and             no DDP to obtain accurate results
+[NeMo I 2023-03-21 15:36:47 exp_manager:370] Experiments will be logged at experiments/deberta_v3_base/2023-03-21_15-36-47
+[NeMo I 2023-03-21 15:36:47 exp_manager:788] TensorboardLogger has been set up
+[NeMo I 2023-03-21 15:36:49 tokenizer_utils:130] Getting HuggingFace AutoTokenizer with pretrained_model_name: microsoft/deberta-v3-base, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: False
+[NeMo W 2023-03-21 15:36:51 modelPT:161] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    text_file: text_train.txt
+    labels_file: labels_train.txt
+    shuffle: true
+    num_samples: -1
+    batch_size: 16
+    
+[NeMo W 2023-03-21 15:36:51 modelPT:168] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    text_file: text_dev.txt
+    labels_file: labels_dev.txt
+    shuffle: false
+    num_samples: -1
+    batch_size: 4
+    
+[NeMo W 2023-03-21 15:36:51 modelPT:174] Please call the ModelPT.setup_test_data() or ModelPT.setup_multiple_test_data() method and provide a valid configuration file to setup the test data loader(s).
+    Test config : 
+    text_file: text_dev.txt
+    labels_file: labels_dev.txt
+    shuffle: false
+    num_samples: -1
+    batch_size: 4
+    
+[NeMo W 2023-03-21 15:36:51 lm_utils:91] microsoft/deberta-v3-base is not in get_pretrained_lm_models_list(include_external=False), will be using AutoModel from HuggingFace.
+[NeMo W 2023-03-21 15:36:56 modelPT:245] You tried to register an artifact under config key=language_model.config_file but an artifact for it has already been registered.
+[NeMo I 2023-03-21 15:37:01 save_restore_connector:247] Model TokenClassificationModel was successfully restored from experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo.
+[NeMo I 2023-03-21 15:37:01 token_classification_model:84] Setting model.dataset.data_dir to ./data.
+[NeMo I 2023-03-21 15:37:01 token_classification_utils:118] Processing ./data/labels_dev.txt
+[NeMo I 2023-03-21 15:37:01 token_classification_utils:138] Using provided labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4}
+[NeMo I 2023-03-21 15:37:01 token_classification_utils:160] ./data/labels_dev_label_stats.tsv found, skipping stats calculation.
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 15:37:02 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 15:37:02 data_preprocessing:406] Min: 3 |                  Max: 130 |                  Mean: 20.70646153846154 |                  Median: 16.0
+[NeMo I 2023-03-21 15:37:02 data_preprocessing:412] 75 percentile: 29.00
+[NeMo I 2023-03-21 15:37:02 data_preprocessing:413] 99 percentile: 57.00
+[NeMo W 2023-03-21 15:37:02 token_classification_dataset:152] 2 are longer than 128
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:157] subtokens: [CLS] ▁CRI CKET ▁- ▁LEI C ESTER SHIRE ▁TAKE ▁OVER ▁AT ▁TOP ▁AFTER ▁I NN INGS ▁VICTOR Y ▁. [SEP]
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:160] subtokens_mask: 0 1 0 1 1 0 0 0 1 1 1 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:162] labels: 0 0 0 0 3 3 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:37:02 token_classification_dataset:278] features saved to ./data/cached__text_dev.txt__labels_dev.txt__DebertaV2Tokenizer_128_128001_-1
+[NeMo W 2023-03-21 15:37:02 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning: The dataloader, test_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+      rank_zero_warn(
+    
+[NeMo I 2023-03-21 15:37:30 token_classification_model:185] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.86      99.85      99.85      42759
+    LOC (label_id: 1)                                       97.90      98.13      98.02       2091
+    MISC (label_id: 2)                                      93.50      95.35      94.42       1268
+    ORG (label_id: 3)                                       96.96      95.98      96.47       2092
+    PER (label_id: 4)                                       99.14      99.02      99.08       3149
+    -------------------
+    micro avg                                               99.46      99.46      99.46      51359
+    macro avg                                               97.47      97.67      97.57      51359
+    weighted avg                                            99.46      99.46      99.46      51359
+    
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:123] Setting Max Seq length to: 130
+[NeMo I 2023-03-21 15:37:31 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 15:37:31 data_preprocessing:406] Min: 3 |                  Max: 130 |                  Mean: 20.70646153846154 |                  Median: 16.0
+[NeMo I 2023-03-21 15:37:31 data_preprocessing:412] 75 percentile: 29.00
+[NeMo I 2023-03-21 15:37:31 data_preprocessing:413] 99 percentile: 57.00
+[NeMo W 2023-03-21 15:37:31 token_classification_dataset:152] 0 are longer than 130
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:157] subtokens: [CLS] ▁CRI CKET ▁- ▁LEI C ESTER SHIRE ▁TAKE ▁OVER ▁AT ▁TOP ▁AFTER ▁I NN INGS ▁VICTOR Y ▁. [SEP]
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:37:31 token_classification_dataset:160] subtokens_mask: 0 1 0 1 1 0 0 0 1 1 1 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 15:38:54 token_classification_model:464] Labels save to experiments/deberta_v3_base/2023-03-21_15-36-47/infer_text_dev.txt
+[NeMo I 2023-03-21 15:38:54 token_classification_model:470] Predictions saved to experiments/deberta_v3_base/2023-03-21_15-36-47/infer_text_dev.txt
+[NeMo I 2023-03-21 15:38:54 utils_funcs:95] Confusion matrix saved to experiments/deberta_v3_base/2023-03-21_15-36-47/Normalized_Confusion_matrix_20230321-153854
+[NeMo I 2023-03-21 15:38:54 token_classification_model:481]                     precision    recall  f1-score   support
+    
+       O (label id: 0)     0.9986    0.9985    0.9985     42759
+     LOC (label id: 1)     0.9790    0.9814    0.9802      2094
+    MISC (label id: 2)     0.9350    0.9535    0.9442      1268
+     ORG (label id: 3)     0.9696    0.9598    0.9647      2092
+     PER (label id: 4)     0.9914    0.9902    0.9908      3149
+    
+              accuracy                         0.9946     51362
+             macro avg     0.9747    0.9767    0.9757     51362
+          weighted avg     0.9946    0.9946    0.9946     51362
+    
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:123] Setting Max Seq length to: 16
+[NeMo I 2023-03-21 15:38:54 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 15:38:54 data_preprocessing:406] Min: 7 |                  Max: 16 |                  Mean: 11.5 |                  Median: 11.5
+[NeMo I 2023-03-21 15:38:54 data_preprocessing:412] 75 percentile: 13.75
+[NeMo I 2023-03-21 15:38:54 data_preprocessing:413] 99 percentile: 15.91
+[NeMo W 2023-03-21 15:38:54 token_classification_dataset:152] 0 are longer than 16
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:157] subtokens: [CLS] ▁we ▁bought ▁four ▁shirts ▁from ▁the ▁nvidia ▁gear ▁store ▁in ▁santa ▁clar a . [SEP]
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[NeMo I 2023-03-21 15:38:54 token_classification_dataset:160] subtokens_mask: 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0
+[NeMo I 2023-03-21 15:38:54 token_classification_model:418] Predictions saved to predictions.txt
+[NeMo I 2023-03-21 15:38:54 test:104] Query : we bought four shirts from the nvidia gear store in santa clara.
+[NeMo I 2023-03-21 15:38:54 test:105] Result: we bought four shirts from the nvidia gear store in santa clara.
+    
+[NeMo I 2023-03-21 15:38:54 test:104] Query : Nvidia is a company.
+[NeMo I 2023-03-21 15:38:54 test:105] Result: Nvidia[ORG] is a company.
+    
+[NeMo I 2023-03-21 15:38:54 test:107] Results are saved at experiments/deberta_v3_base/2023-03-21_15-36-47

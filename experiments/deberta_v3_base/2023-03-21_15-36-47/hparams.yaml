@@ -1,0 +1,67 @@
+cfg:
+  label_ids:
+    O: 0
+    LOC: 1
+    MISC: 2
+    ORG: 3
+    PER: 4
+  class_labels:
+    class_labels_file: nemo:401c0b8792d54601b4b304e426e29b19_label_ids.csv
+  dataset:
+    data_dir: ./data
+    class_balancing: null
+    max_seq_length: 128
+    pad_label: O
+    ignore_extra_tokens: false
+    ignore_start_end: false
+    use_cache: false
+    num_workers: 2
+    pin_memory: false
+    drop_last: false
+  train_ds:
+    text_file: text_train.txt
+    labels_file: labels_train.txt
+    shuffle: true
+    num_samples: -1
+    batch_size: 16
+  validation_ds:
+    text_file: text_dev.txt
+    labels_file: labels_dev.txt
+    shuffle: false
+    num_samples: -1
+    batch_size: 4
+  test_ds:
+    text_file: text_dev.txt
+    labels_file: labels_dev.txt
+    shuffle: false
+    num_samples: -1
+    batch_size: 4
+  tokenizer:
+    tokenizer_name: microsoft/deberta-v3-base
+    vocab_file: /home/artem/.cache/huggingface/nemo_nlp_tmp/61684d6345158888e4b9b1b682a79266/sentencepiece.bpe.model
+    tokenizer_model: null
+    special_tokens: null
+  language_model:
+    pretrained_model_name: microsoft/deberta-v3-base
+    lm_checkpoint: null
+    config_file: nemo:8778d0664b0245fcbcc4361ceb13cc92_microsoft_deberta-v3-base_encoder_config.json
+    config: null
+  head:
+    num_fc_layers: 2
+    fc_dropout: 0.5
+    activation: relu
+    use_transformer_init: true
+  optim:
+    name: adam
+    lr: 5.0e-05
+    weight_decay: 0.0
+    sched:
+      name: WarmupAnnealing
+      warmup_steps: null
+      warmup_ratio: 0.1
+      last_epoch: -1
+      monitor: val_loss
+      reduce_on_plateau: false
+  target: nemo.collections.nlp.models.token_classification.token_classification_model.TokenClassificationModel
+  nemo_version: 1.17.0rc0
+  tokenizer_vocab_dict: nemo:7b800f0946ad465897704a896ba17905_tokenizer_vocab_dict

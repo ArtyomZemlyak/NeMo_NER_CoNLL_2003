@@ -1,0 +1,309 @@
+[NeMo W 2023-03-21 10:50:44 optimizers:66] Could not import distributed_fused_adam optimizer from Apex
+[NeMo W 2023-03-21 10:50:47 experimental:27] Module <class 'nemo.collections.nlp.data.language_modeling.megatron.megatron_batch_samplers.MegatronPretrainingRandomBatchSampler'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 10:50:47 experimental:27] Module <class 'nemo.collections.nlp.models.text_normalization_as_tagging.thutmose_tagger.ThutmoseTaggerModel'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 10:50:48 experimental:27] Module <class 'nemo.collections.asr.modules.audio_modules.SpectrogramToMultichannelFeatures'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 10:50:48 nemo_logging:349] flair/lib/python3.8/site-packages/clearml/binding/hydra_bind.py:137: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+    See https://hydra.cc/docs/next/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+      result = PatchHydra._original_run_job(*args, **kwargs)
+    
+[NeMo I 2023-03-21 10:50:48 exp_manager:370] Experiments will be logged at experiments/bert_base_uncased/2023-03-21_10-50-48
+[NeMo I 2023-03-21 10:50:48 exp_manager:788] TensorboardLogger has been set up
+[NeMo I 2023-03-21 10:50:56 exp_manager:826] ClearMLLogger has been set up
+[NeMo I 2023-03-21 10:50:56 train:87] Config: pretrained_model: null
+    model:
+      label_ids: null
+      class_labels:
+        class_labels_file: label_ids.csv
+      dataset:
+        data_dir: ./data
+        class_balancing: null
+        max_seq_length: 128
+        pad_label: O
+        ignore_extra_tokens: false
+        ignore_start_end: false
+        use_cache: false
+        num_workers: 2
+        pin_memory: false
+        drop_last: false
+      train_ds:
+        text_file: text_train.txt
+        labels_file: labels_train.txt
+        shuffle: true
+        num_samples: -1
+        batch_size: 32
+      validation_ds:
+        text_file: text_dev.txt
+        labels_file: labels_dev.txt
+        shuffle: false
+        num_samples: -1
+        batch_size: 8
+      test_ds:
+        text_file: text_dev.txt
+        labels_file: labels_dev.txt
+        shuffle: false
+        num_samples: -1
+        batch_size: 8
+      tokenizer:
+        tokenizer_name: ${model.language_model.pretrained_model_name}
+        vocab_file: null
+        tokenizer_model: null
+        special_tokens: null
+      language_model:
+        pretrained_model_name: bert-base-uncased
+        lm_checkpoint: null
+        config_file: null
+        config: null
+      head:
+        num_fc_layers: 2
+        fc_dropout: 0.5
+        activation: relu
+        use_transformer_init: true
+      optim:
+        name: adam
+        lr: 5.0e-05
+        weight_decay: 0.0
+        sched:
+          name: WarmupAnnealing
+          warmup_steps: null
+          warmup_ratio: 0.1
+          last_epoch: -1
+          monitor: val_loss
+          reduce_on_plateau: false
+    trainer:
+      devices: 1
+      num_nodes: 1
+      max_epochs: 5
+      max_steps: -1
+      accumulate_grad_batches: 1
+      gradient_clip_val: 0.0
+      precision: 32
+      accelerator: gpu
+      enable_checkpointing: false
+      logger: false
+      log_every_n_steps: 1
+      val_check_interval: 1.0
+      resume_from_checkpoint: null
+    exp_manager:
+      exp_dir: experiments/
+      name: bert_base_uncased
+      create_tensorboard_logger: true
+      create_checkpoint_callback: true
+      checkpoint_callback_params:
+        monitor: f1
+        mode: max
+        save_top_k: 2
+        always_save_nemo: true
+        save_best_model: true
+        verbose: false
+      resume_if_exists: false
+      resume_ignore_no_checkpoint: false
+      create_wandb_logger: false
+      wandb_logger_kwargs:
+        name: null
+        project: null
+      create_clearml_logger: true
+      clearml_logger_kwargs:
+        task: bert_base_uncased
+        project: Test/NLP/NER
+        tags:
+        - NeMo
+        log_model: false
+        log_cfg: true
+        log_metrics: true
+        connect_pytorch: false
+    
+[NeMo I 2023-03-21 10:50:56 tokenizer_utils:130] Getting HuggingFace AutoTokenizer with pretrained_model_name: bert-base-uncased, vocab_file: None, merges_files: None, special_tokens_dict: {}, and use_fast: False
+[NeMo W 2023-03-21 10:50:57 modelPT:245] You tried to register an artifact under config key=tokenizer.vocab_file but an artifact for it has already been registered.
+[NeMo I 2023-03-21 10:50:57 token_classification_utils:118] Processing ./data/labels_train.txt
+[NeMo I 2023-03-21 10:50:57 token_classification_utils:154] Labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4} saved to : ./data/label_ids.csv
+[NeMo I 2023-03-21 10:50:57 token_classification_utils:163] Three most popular labels in ./data/labels_train.txt:
+[NeMo I 2023-03-21 10:50:57 data_preprocessing:194] label: 0, 169578 out of 203621 (83.28%).
+[NeMo I 2023-03-21 10:50:57 data_preprocessing:194] label: 4, 11128 out of 203621 (5.47%).
+[NeMo I 2023-03-21 10:50:57 data_preprocessing:194] label: 3, 10025 out of 203621 (4.92%).
+[NeMo I 2023-03-21 10:50:57 token_classification_utils:165] Total labels: 203621. Label frequencies - {0: 169578, 4: 11128, 3: 10025, 1: 8297, 2: 4593}
+[NeMo I 2023-03-21 10:50:57 token_classification_utils:171] Class weights restored from ./data/labels_train_weights.p
+[NeMo I 2023-03-21 10:51:08 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 10:51:08 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 10:51:08 data_preprocessing:406] Min: 3 |                  Max: 164 |                  Mean: 19.950502100989958 |                  Median: 15.0
+[NeMo I 2023-03-21 10:51:08 data_preprocessing:412] 75 percentile: 28.00
+[NeMo I 2023-03-21 10:51:08 data_preprocessing:413] 99 percentile: 56.00
+[NeMo W 2023-03-21 10:51:09 token_classification_dataset:152] 1 are longer than 128
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:157] subtokens: [CLS] eu rejects german call to boycott british lamb . [SEP]
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:160] subtokens_mask: 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:162] labels: 0 3 0 2 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:09 token_classification_dataset:278] features saved to ./data/cached__text_train.txt__labels_train.txt__BertTokenizer_128_30522_-1
+[NeMo I 2023-03-21 10:51:09 token_classification_utils:118] Processing ./data/labels_dev.txt
+[NeMo I 2023-03-21 10:51:09 token_classification_utils:138] Using provided labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4}
+[NeMo I 2023-03-21 10:51:09 token_classification_utils:160] ./data/labels_dev_label_stats.tsv found, skipping stats calculation.
+[NeMo I 2023-03-21 10:51:11 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 10:51:11 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 10:51:11 data_preprocessing:406] Min: 3 |                  Max: 146 |                  Mean: 21.368307692307692 |                  Median: 16.0
+[NeMo I 2023-03-21 10:51:11 data_preprocessing:412] 75 percentile: 31.00
+[NeMo I 2023-03-21 10:51:11 data_preprocessing:413] 99 percentile: 61.00
+[NeMo W 2023-03-21 10:51:12 token_classification_dataset:152] 3 are longer than 128
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:157] subtokens: [CLS] cricket - leicestershire take over at top after innings victory . [SEP]
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:160] subtokens_mask: 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:162] labels: 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:12 token_classification_dataset:278] features saved to ./data/cached__text_dev.txt__labels_dev.txt__BertTokenizer_128_30522_-1
+[NeMo I 2023-03-21 10:51:12 token_classification_utils:118] Processing ./data/labels_dev.txt
+[NeMo I 2023-03-21 10:51:12 token_classification_utils:138] Using provided labels mapping {'O': 0, 'LOC': 1, 'MISC': 2, 'ORG': 3, 'PER': 4}
+[NeMo I 2023-03-21 10:51:12 token_classification_utils:160] ./data/labels_dev_label_stats.tsv found, skipping stats calculation.
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:123] Setting Max Seq length to: 128
+[NeMo I 2023-03-21 10:51:14 data_preprocessing:404] Some stats of the lengths of the sequences:
+[NeMo I 2023-03-21 10:51:14 data_preprocessing:406] Min: 3 |                  Max: 146 |                  Mean: 21.368307692307692 |                  Median: 16.0
+[NeMo I 2023-03-21 10:51:14 data_preprocessing:412] 75 percentile: 31.00
+[NeMo I 2023-03-21 10:51:14 data_preprocessing:413] 99 percentile: 61.00
+[NeMo W 2023-03-21 10:51:14 token_classification_dataset:152] 3 are longer than 128
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:155] *** Example ***
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:156] i: 0
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:157] subtokens: [CLS] cricket - leicestershire take over at top after innings victory . [SEP]
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:158] loss_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:159] input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:160] subtokens_mask: 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:162] labels: 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[NeMo I 2023-03-21 10:51:14 token_classification_dataset:278] features saved to ./data/cached__text_dev.txt__labels_dev.txt__BertTokenizer_128_30522_-1
+[NeMo I 2023-03-21 10:51:23 modelPT:722] Optimizer config = Adam (
+    Parameter Group 0
+        amsgrad: False
+        betas: (0.9, 0.999)
+        capturable: False
+        differentiable: False
+        eps: 1e-08
+        foreach: None
+        fused: False
+        lr: 5e-05
+        maximize: False
+        weight_decay: 0.0
+    )
+[NeMo I 2023-03-21 10:51:23 lr_scheduler:910] Scheduler "<nemo.core.optim.lr_scheduler.WarmupAnnealing object at 0x7f0e98dedc70>" 
+    will be used during training (effective maximum steps = 2195) - 
+    Parameters : 
+    (warmup_steps: null
+    warmup_ratio: 0.1
+    last_epoch: -1
+    max_steps: 2195
+    )
+[NeMo W 2023-03-21 10:51:23 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning:
+    
+    The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+    
+    
+[NeMo I 2023-03-21 10:51:24 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                          0.00       0.00       0.00        378
+    LOC (label_id: 1)                                        0.00       0.00       0.00          9
+    MISC (label_id: 2)                                       0.00       0.00       0.00          4
+    ORG (label_id: 3)                                        5.45     100.00      10.34         24
+    PER (label_id: 4)                                        0.00       0.00       0.00         25
+    -------------------
+    micro avg                                                5.45       5.45       5.45        440
+    macro avg                                                1.09      20.00       2.07        440
+    weighted avg                                             0.30       5.45       0.56        440
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('val_loss', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('precision', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('f1', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('recall', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning:
+    
+    The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+    
+    
+[NeMo I 2023-03-21 10:55:53 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.47      99.42      99.45      42744
+    LOC (label_id: 1)                                       95.05      95.65      95.35       2090
+    MISC (label_id: 2)                                      83.07      88.64      85.77       1268
+    ORG (label_id: 3)                                       91.45      89.01      90.21       2092
+    PER (label_id: 4)                                       98.88      98.31      98.60       3144
+    -------------------
+    micro avg                                               98.51      98.51      98.51      51338
+    macro avg                                               93.59      94.21      93.87      51338
+    weighted avg                                            98.53      98.51      98.51      51338
+    
+[NeMo I 2023-03-21 10:55:58 exp_manager:963] New best .nemo model saved to: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased.nemo
+[NeMo I 2023-03-21 11:03:03 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.58      99.45      99.51      42744
+    LOC (label_id: 1)                                       96.85      96.94      96.89       2090
+    MISC (label_id: 2)                                      85.91      89.43      87.64       1268
+    ORG (label_id: 3)                                       91.74      92.40      92.07       2092
+    PER (label_id: 4)                                       98.91      98.54      98.73       3144
+    -------------------
+    micro avg                                               98.76      98.76      98.76      51338
+    macro avg                                               94.60      95.35      94.97      51338
+    weighted avg                                            98.77      98.76      98.76      51338
+    
+[NeMo I 2023-03-21 11:03:09 exp_manager:963] New best .nemo model saved to: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased.nemo
+[NeMo I 2023-03-21 11:03:14 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=93.8746-epoch=0-last.ckpt
+[NeMo I 2023-03-21 11:10:46 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.48      99.68      99.58      42744
+    LOC (label_id: 1)                                       97.03      96.94      96.98       2090
+    MISC (label_id: 2)                                      86.84      89.51      88.16       1268
+    ORG (label_id: 3)                                       94.74      89.53      92.06       2092
+    PER (label_id: 4)                                       99.04      98.89      98.97       3144
+    -------------------
+    micro avg                                               98.85      98.85      98.85      51338
+    macro avg                                               95.43      94.91      95.15      51338
+    weighted avg                                            98.85      98.85      98.85      51338
+    
+[NeMo I 2023-03-21 11:10:50 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=93.8746-epoch=0.ckpt
+[NeMo I 2023-03-21 11:10:53 exp_manager:963] New best .nemo model saved to: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased.nemo
+[NeMo I 2023-03-21 11:10:55 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=94.9672-epoch=1-last.ckpt
+[NeMo I 2023-03-21 11:17:47 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.54      99.67      99.61      42744
+    LOC (label_id: 1)                                       96.45      97.51      96.98       2090
+    MISC (label_id: 2)                                      91.78      88.96      90.35       1268
+    ORG (label_id: 3)                                       94.07      92.54      93.30       2092
+    PER (label_id: 4)                                       98.92      98.82      98.87       3144
+    -------------------
+    micro avg                                               98.97      98.97      98.97      51338
+    macro avg                                               96.15      95.50      95.82      51338
+    weighted avg                                            98.97      98.97      98.97      51338
+    
+[NeMo I 2023-03-21 11:17:50 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=94.9672-epoch=1.ckpt
+[NeMo I 2023-03-21 11:17:52 exp_manager:963] New best .nemo model saved to: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased.nemo
+[NeMo I 2023-03-21 11:17:55 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=95.1495-epoch=2-last.ckpt
+[NeMo I 2023-03-21 11:25:00 token_classification_model:159] 
+    label                                                precision    recall       f1           support   
+    O (label_id: 0)                                         99.60      99.65      99.62      42744
+    LOC (label_id: 1)                                       97.50      96.99      97.24       2090
+    MISC (label_id: 2)                                      89.85      90.06      89.96       1268
+    ORG (label_id: 3)                                       93.44      93.26      93.35       2092
+    PER (label_id: 4)                                       99.17      98.85      99.01       3144
+    -------------------
+    micro avg                                               98.99      98.99      98.99      51338
+    macro avg                                               95.91      95.76      95.84      51338
+    weighted avg                                            98.99      98.99      98.99      51338
+    
+[NeMo I 2023-03-21 11:25:04 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=95.1495-epoch=2.ckpt
+[NeMo I 2023-03-21 11:25:07 exp_manager:963] New best .nemo model saved to: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased.nemo
+[NeMo I 2023-03-21 11:25:10 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=95.8209-epoch=3-last.ckpt
+[NeMo I 2023-03-21 11:25:12 exp_manager:963] New best .nemo model saved to: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased.nemo
+[NeMo I 2023-03-21 11:25:15 nlp_overrides:208] Removing checkpoint: experiments/bert_base_uncased/2023-03-21_10-50-48/checkpoints/bert_base_uncased--f1=95.8367-epoch=4-last.ckpt

@@ -1,0 +1,1 @@
+train.py --config-path=./configs --config-name=train_deberta_v3_base.yaml

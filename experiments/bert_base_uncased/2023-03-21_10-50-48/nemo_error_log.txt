@@ -1,0 +1,42 @@
+[NeMo W 2023-03-21 10:50:44 optimizers:66] Could not import distributed_fused_adam optimizer from Apex
+[NeMo W 2023-03-21 10:50:47 experimental:27] Module <class 'nemo.collections.nlp.data.language_modeling.megatron.megatron_batch_samplers.MegatronPretrainingRandomBatchSampler'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 10:50:47 experimental:27] Module <class 'nemo.collections.nlp.models.text_normalization_as_tagging.thutmose_tagger.ThutmoseTaggerModel'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 10:50:48 experimental:27] Module <class 'nemo.collections.asr.modules.audio_modules.SpectrogramToMultichannelFeatures'> is experimental, not ready for production and is not fully supported. Use at your own risk.
+[NeMo W 2023-03-21 10:50:48 nemo_logging:349] flair/lib/python3.8/site-packages/clearml/binding/hydra_bind.py:137: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+    See https://hydra.cc/docs/next/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+      result = PatchHydra._original_run_job(*args, **kwargs)
+    
+[NeMo W 2023-03-21 10:50:57 modelPT:245] You tried to register an artifact under config key=tokenizer.vocab_file but an artifact for it has already been registered.
+[NeMo W 2023-03-21 10:51:09 token_classification_dataset:152] 1 are longer than 128
+[NeMo W 2023-03-21 10:51:12 token_classification_dataset:152] 3 are longer than 128
+[NeMo W 2023-03-21 10:51:14 token_classification_dataset:152] 3 are longer than 128
+[NeMo W 2023-03-21 10:51:23 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning:
+    
+    The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('val_loss', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('precision', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('f1', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:537: PossibleUserWarning:
+    
+    It is recommended to use `self.log('recall', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+    
+    
+[NeMo W 2023-03-21 10:51:24 nemo_logging:349] flair/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:224: PossibleUserWarning:
+    
+    The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 16 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+    
+    

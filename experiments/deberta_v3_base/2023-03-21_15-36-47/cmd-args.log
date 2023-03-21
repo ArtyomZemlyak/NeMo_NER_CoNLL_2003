@@ -1,0 +1,1 @@
+test.py --config-path=./configs --config-name=train_deberta_v3_base.yaml +pretrained_model=experiments/deberta_v3_base/2023-03-21_13-16-01/checkpoints/deberta_v3_base.nemo exp_manager.create_clearml_logger=false
